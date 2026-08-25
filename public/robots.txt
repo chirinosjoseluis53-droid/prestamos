@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://prismatic-monstera-187128.netlify.app/sitemap.xml
