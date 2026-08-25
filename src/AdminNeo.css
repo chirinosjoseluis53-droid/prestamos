@@ -28,6 +28,7 @@
   background: linear-gradient(135deg, #0e1a22 0%, var(--neo-bg) 100%) !important;
   color: var(--neo-text-primary) !important;
   position: relative;
+  isolation: isolate;
   overflow-x: hidden;
   font-family: 'Inter', sans-serif;
   min-height: 100vh;
@@ -212,10 +213,12 @@
   background: radial-gradient(circle, rgba(147, 197, 253, 0.2) 0%, transparent 60%);
 }
 
-/* Las barras de navegación y contenido principal necesitan z-index sobre el fondo */
-.theme-admin-neo .sidebar, 
+/* Sidebar needs higher z-index than neon glow */
+.theme-admin-neo .sidebar {
+  z-index: 100;
+}
+
 .theme-admin-neo .main-content {
-  position: relative;
   z-index: 1;
 }
 
