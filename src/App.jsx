@@ -75,7 +75,7 @@ import {
   History, UserPlus, Receipt, ShieldCheck, ClipboardList, BarChart3,
   BellRing, Target, Activity, Users2, FileEdit, GitCompareArrows,
   Send, Landmark, Layers, PercentCircle, Clock, MessageCircle,
-  Globe, Tag, PercentIcon, Hourglass, PhoneForwarded
+  Globe, Tag, PercentIcon, Hourglass, PhoneForwarded, Menu, X
 } from 'lucide-react';
 
 // ─── Client Layout ─────────────────────────────────────────────────────────
@@ -86,6 +86,7 @@ function ClientLayout() {
   const [tab, setTab] = useState('dashboard');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [loanData, setLoanData] = useState(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   if (!isReady) {
     return (
@@ -152,7 +153,8 @@ function ClientLayout() {
 
   return (
     <div className="app-container theme-admin-neo">
-      <nav className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
+      {mobileMenuOpen && <div className="mobile-overlay" onClick={() => setMobileMenuOpen(false)} />}
+      <nav className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''} ${mobileMenuOpen ? 'mobile-open' : ''}`}>
         <div className="sidebar-header">
           <div className="logo" onClick={() => setSidebarCollapsed(!sidebarCollapsed)} style={{ cursor: 'pointer', overflow: 'hidden' }}>
             {!sidebarCollapsed ? (
@@ -173,7 +175,7 @@ function ClientLayout() {
             <li key={item.id}>
               <div
                 className={`menu-item ${tab === item.id ? 'active' : ''}`}
-                onClick={() => setTab(item.id)}
+                onClick={() => { setTab(item.id); setMobileMenuOpen(false); }}
                 title={sidebarCollapsed ? item.label : undefined}
               >
                 {item.icon}
@@ -187,6 +189,9 @@ function ClientLayout() {
       <main className="main-content">
         <div className="top-bar">
           <div className="page-title">
+            <button className="hamburger-btn" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
             <h1>{menuItems.find(m => m.id === tab)?.label || 'Dashboard'}</h1>
           </div>
           <div className="top-bar-actions">
@@ -223,6 +228,7 @@ function AdminLayout() {
   const [tab, setTab] = useState('dashboard');
   const [selectedLoan, setSelectedLoan] = useState(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={20} /> },
@@ -286,8 +292,9 @@ function AdminLayout() {
 
   return (
     <div className="app-container theme-admin-neo">
+      {mobileMenuOpen && <div className="mobile-overlay" onClick={() => setMobileMenuOpen(false)} />}
       {/* Sidebar */}
-      <nav className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''}`} style={{ minWidth: sidebarCollapsed ? '80px' : '240px' }}>
+      <nav className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''} ${mobileMenuOpen ? 'mobile-open' : ''}`} style={{ minWidth: sidebarCollapsed ? '80px' : '240px' }}>
         <div className="sidebar-header">
           <div className="logo" onClick={() => setSidebarCollapsed(!sidebarCollapsed)} style={{ cursor: 'pointer', overflow: 'hidden' }}>
             {!sidebarCollapsed ? (
@@ -309,7 +316,7 @@ function AdminLayout() {
             <li key={item.id}>
               <div
                 className={`menu-item menu-item-admin ${tab === item.id ? 'active' : ''}`}
-                onClick={() => setTab(item.id)}
+                onClick={() => { setTab(item.id); setMobileMenuOpen(false); }}
                 title={sidebarCollapsed ? item.label : undefined}
               >
                 {item.icon}
@@ -324,6 +331,9 @@ function AdminLayout() {
       <main className="main-content">
         <div className="top-bar">
           <div className="page-title">
+            <button className="hamburger-btn" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
             {tab === 'dashboard' ? (
               <h1>Dashboard <span>Admin</span></h1>
             ) : (

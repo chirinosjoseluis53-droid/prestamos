@@ -191,6 +191,16 @@
   min-height: 100vh;
 }
 
+/* Hamburger button - hidden on desktop, shown on mobile */
+.hamburger-btn {
+  display: none;
+}
+
+/* Mobile overlay - hidden on desktop */
+.mobile-overlay {
+  display: none;
+}
+
 .top-bar {
   height: 70px;
   background-color: var(--surface);
@@ -1157,117 +1167,146 @@
   animation: spin 1s linear infinite;
 }
 
-/* ─── Responsive: Bottom Nav Bar on Mobile ──────────────────────────────── */
+/* ─── Responsive: Hamburger Menu on Mobile ──────────────────────────────── */
 @media (max-width: 768px) {
 
-  /* Layout: stack vertically so sidebar goes to bottom */
-  .app-container {
-    flex-direction: column;
+  /* Hamburger button - visible only on mobile */
+  .hamburger-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    background: var(--surface-light);
+    color: var(--text);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.2s;
+  }
+  .hamburger-btn:hover {
+    background: var(--border);
   }
 
-  /* Sidebar becomes a fixed bottom navigation bar */
-  .sidebar {
-    width: 100% !important;
-    min-width: 100% !important;
-    max-width: 100% !important;
-    height: 64px;
-    max-height: 64px;
+  /* Mobile overlay backdrop */
+  .mobile-overlay {
+    display: block;
     position: fixed;
-    bottom: 0;
+    top: 0;
     left: 0;
-    top: auto;
-    flex-direction: row;
-    border-right: none;
-    border-top: 1px solid var(--border);
-    box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
-    z-index: 9999;
-    padding: 0;
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-    overflow: hidden;
-    background-color: var(--surface);
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    animation: fadeIn 0.2s ease;
   }
 
-  /* Hide sidebar header, footer, and brand on mobile */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* Sidebar becomes slide-out overlay from left */
+  .sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: -280px !important;
+    width: 280px !important;
+    min-width: 280px !important;
+    max-width: 280px !important;
+    height: 100vh;
+    max-height: 100vh;
+    z-index: 9999;
+    border-right: 1px solid var(--border);
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .sidebar.mobile-open {
+    left: 0 !important;
+  }
+
+  /* Sidebar header, brand, footer visible on mobile */
   .sidebar-header,
   .sidebar-footer,
   .sidebar-brand {
-    display: none;
+    display: block !important;
   }
 
-  /* Menu becomes horizontal row */
+  /* Menu items vertical again */
   .sidebar-menu {
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-    padding: 0;
-    gap: 0;
-    overflow: hidden;
-    max-height: 64px;
-    width: 100%;
-    scrollbar-width: none;
-  }
-  .sidebar-menu::-webkit-scrollbar {
-    display: none;
+    flex-direction: column;
+    padding: 8px;
+    gap: 2px;
+    max-height: calc(100vh - 120px) !important;
+    overflow-y: auto !important;
   }
 
-  /* Each nav item */
   .sidebar-menu li {
-    flex: 1;
+    flex: none;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 64px;
+    height: auto;
   }
 
   .menu-item {
-    flex-direction: column;
-    gap: 4px;
-    padding: 0;
+    flex-direction: row;
+    gap: 12px;
+    padding: 12px 16px;
     margin: 0;
-    border-radius: 0;
-    justify-content: center;
+    border-radius: 10px;
+    justify-content: flex-start;
     align-items: center;
     width: 100%;
-    height: 100%;
-    border-top: 3px solid transparent;
-    transition: color 0.2s, border-color 0.2s;
+    height: auto;
+    border-top: none;
     color: var(--text-secondary);
     white-space: nowrap;
   }
 
-  /* Hide text labels — icons only */
   .menu-item span {
-    display: none;
+    display: block !important;
+    font-size: 14px;
   }
 
   .menu-item svg {
-    width: 26px;
-    height: 26px;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
   }
 
   .menu-item:hover,
   .menu-item.active {
-    background-color: transparent;
-    border-top: 3px solid var(--primary);
+    background-color: var(--surface-light);
+    border-top: none;
+    border-left: 3px solid var(--primary);
     color: var(--primary);
   }
 
   .menu-item-admin.active {
-    border-top-color: var(--admin-accent);
+    border-left-color: var(--admin-accent);
     color: var(--admin-accent);
   }
 
-  /* Main content fills remaining space and adds padding for bottom bar */
+  /* Main content full width, no bottom padding */
   .main-content {
     width: 100%;
     min-height: 100dvh;
-    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: 0;
   }
 
   /* Top bar compact */
   .top-bar {
-    padding: 0 16px;
+    padding: 0 12px;
     height: 56px;
+  }
+
+  .page-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 
   .page-title h1 {
