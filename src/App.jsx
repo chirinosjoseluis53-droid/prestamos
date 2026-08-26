@@ -216,7 +216,7 @@ function ClientLayout() {
           {renderTab()}
         </div>
       </main>
-      <AppChatBot />
+      {!mobileMenuOpen && <AppChatBot />}
     </div>
   );
 }
@@ -362,7 +362,7 @@ function AdminLayout() {
           {renderTab()}
         </div>
       </main>
-      <AppChatBot />
+      {!mobileMenuOpen && <AppChatBot />}
     </div>
   );
 }

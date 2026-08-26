@@ -1184,6 +1184,8 @@
     cursor: pointer;
     flex-shrink: 0;
     transition: background 0.2s;
+    position: relative;
+    z-index: 10001;
   }
   .hamburger-btn:hover {
     background: var(--border);
@@ -1217,7 +1219,7 @@
     max-width: 280px !important;
     height: 100vh;
     max-height: 100vh;
-    z-index: 9999;
+    z-index: 9999 !important;
     border-right: 1px solid var(--border);
     box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1301,6 +1303,7 @@
   .top-bar {
     padding: 0 12px;
     height: 56px;
+    z-index: 10000;
   }
 
   .page-title {

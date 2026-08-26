@@ -218,6 +218,12 @@
   z-index: 100;
 }
 
+@media (max-width: 768px) {
+  .theme-admin-neo .sidebar {
+    z-index: 9999 !important;
+  }
+}
+
 .theme-admin-neo .main-content {
   z-index: 1;
 }
